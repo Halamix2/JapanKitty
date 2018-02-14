@@ -2,6 +2,7 @@ Japankitty
 ----
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9608db357d9d46f3ae2362f648b3c1f8)](https://www.codacy.com/app/Halamix2/JapanKitty?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Halamix2/JapanKitty&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/9608db357d9d46f3ae2362f648b3c1f8)](https://www.codacy.com/app/Halamix2/JapanKitty?utm_source=github.com&utm_medium=referral&utm_content=Halamix2/JapanKitty&utm_campaign=Badge_Coverage)
+[![CircleCI](https://circleci.com/gh/Halamix2/JapanKitty.svg?style=svg)](https://circleci.com/gh/Halamix2/JapanKitty)
 
 Server-side of Japankitty service, writthen mostly in PHP using Laravel framework
 
