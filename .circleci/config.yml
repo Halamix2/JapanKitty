@@ -16,11 +16,6 @@ jobs:
 
     working_directory: ~/laravel
 
-    test:
-        post:
-            - php vendor/bin/phpunit --coverage-clover build/coverage/xml
-            - php bin/codacycoverage clover build/coverage/xml
-
     steps:
       - checkout
       - run: sudo apt install -y libsqlite3-dev zlib1g-dev
@@ -46,5 +41,7 @@ jobs:
             - node_modules
       - run: touch storage/testing.sqlite
       - run: php artisan migrate --env=testing --database=sqlite_testing --force
+      - run: ./vendor/bin/phpunit --coverage-clover build/coverage/xml
+      - run: ./vendor/bin/codacycoverage clover build/coverage/xml
       # - run: ./vendor/bin/codecept build
       # - run: ./vendor/bin/codecept run
