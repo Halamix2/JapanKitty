@@ -2,3 +2,4 @@ exclude_paths:
     - public/**
     - vendor/**
     - node_modules/**
+    - homestead/**

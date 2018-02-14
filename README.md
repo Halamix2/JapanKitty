@@ -8,10 +8,24 @@ Server-side of Japankitty service, writthen mostly in PHP using Laravel framewor
 
 # Installation
 ```bash
+#optional, install if you want to use Homestead
+git submodule update --init --recursive
+
+# install required dependencies
 composer update
 #artisan database something here, check exactly what to enter
+
+# optional dependencies for frontend, not used for now
+npm install
 ```
 
+# Homestead
+```bash
+# run Homestead box
+vagrant up
+# stop box (maybe not elegant way)
+vagrant halt
+```
 
 # Testing and coverage
 Testing and coverage is handled by PHPUnit and automated for PRs with Codacy
