@@ -41,7 +41,14 @@ jobs:
             - node_modules
       - run: touch storage/testing.sqlite
       - run: php artisan migrate --env=testing --database=sqlite_testing --force
-      - run: ./vendor/bin/phpunit --coverage-clover build/coverage/xml
-      - run: ./vendor/bin/codacycoverage clover build/coverage/xml
+      - run:
+          name: PHPUnit
+          command: ./vendor/bin/phpunit
+      - run:
+          name: Generate coverage
+          command: ./vendor/bin/phpunit --coverage-clover build/coverage/xml
+      - run:
+          name: Upload coverage to Codacy
+          command: ./vendor/bin/codacycoverage clover build/coverage/xml
       # - run: ./vendor/bin/codecept build
       # - run: ./vendor/bin/codecept run
