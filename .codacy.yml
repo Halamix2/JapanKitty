@@ -3,3 +3,5 @@ exclude_paths:
     - vendor/**
     - node_modules/**
     - homestead/**
+    - resources/assets/**
+    - database/migrations/**

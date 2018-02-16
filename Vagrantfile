@@ -12,17 +12,17 @@ aliasesPath = "aliases"
 require File.expand_path(confDir + '/scripts/homestead.rb')
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-    if File.exists? aliasesPath then
+    if File.exists? aliasesPath
         config.vm.provision "file", source: aliasesPath, destination: "~/.bash_aliases"
     end
 
-    if File.exists? homesteadYamlPath then
-        Homestead.configure(config, YAML::load(File.read(homesteadYamlPath)))
-    elsif File.exists? homesteadJsonPath then
+    if File.exists? homesteadYamlPath
+        Homestead.configure(config, YAML.load(File.read(homesteadYamlPath)))
+    elsif File.exists? homesteadJsonPath
         Homestead.configure(config, JSON.parse(File.read(homesteadJsonPath)))
     end
 
-    if File.exists? afterScriptPath then
+    if File.exists? afterScriptPath
         config.vm.provision "shell", path: afterScriptPath
     end
 end
