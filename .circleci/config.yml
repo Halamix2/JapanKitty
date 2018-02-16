@@ -43,7 +43,15 @@ jobs:
       - run: php artisan migrate --env=testing --database=sqlite_testing --force
       - run:
           name: PHPUnit
-          command: ./vendor/bin/phpunit
+          command: |
+            mkdir -p ~/phpunit
+            ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml
+          when: always
+      - store_test_results:
+          path: ~/phpunit
+      - store_artifacts:
+          path: ~/phpunit
+
       - run:
           name: Generate coverage
           command: ./vendor/bin/phpunit --coverage-clover build/coverage/xml
