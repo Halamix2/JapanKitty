@@ -47,16 +47,17 @@ jobs:
             mkdir -p ~/phpunit
             ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml
           when: always
+
+      - run:
+          name: Generate coverage
+          command: ./vendor/bin/phpunit --coverage-clover ~/phpunit/coverage/xml
+      - run:
+          name: Upload coverage to Codacy
+          command: ./vendor/bin/codacycoverage clover ~/phpunit/coverage/xml
+
       - store_test_results:
           path: ~/phpunit
       - store_artifacts:
           path: ~/phpunit
-
-      - run:
-          name: Generate coverage
-          command: ./vendor/bin/phpunit --coverage-clover build/coverage/xml
-      - run:
-          name: Upload coverage to Codacy
-          command: ./vendor/bin/codacycoverage clover build/coverage/xml
       # - run: ./vendor/bin/codecept build
       # - run: ./vendor/bin/codecept run
