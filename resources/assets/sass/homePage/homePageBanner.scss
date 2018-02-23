@@ -1,0 +1,12 @@
+.banner{
+    position: relative;
+    .banner-container{
+        background: rgba(0,0,0,0.2);
+        img{
+            display: block;
+            overflow-x: hidden;
+            height: auto;
+            max-width: 100%;
+        }
+    }
+}

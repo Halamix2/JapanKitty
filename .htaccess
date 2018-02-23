@@ -1,0 +1,12 @@
+AddHandler application/x-httpd-php71 php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+
+    RewriteRule    ^wywal.php    wywal.php    [L]
+# /storage/app/public/ passthrough
+    RewriteRule    ^storage/$    storage/app/public/    [L]
+    RewriteRule    ^storage/(.*)$    storage/app/public/$1    [L]
+    RewriteRule    ^$    public/    [L]
+    RewriteRule    (.*) public/$1    [L]
+</IfModule>
