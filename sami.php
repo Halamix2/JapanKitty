@@ -12,7 +12,7 @@
     ;
 
     $options = [
-        'title'                 => 'Japankitty API',
+        'title'                 => 'JapanKitty API',
         'build_dir'             =>  __DIR__.'/build/docs/api/',
     ];
 

@@ -39,25 +39,74 @@ jobs:
           key: node-v1-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: touch storage/testing.sqlite
+      - run: touch database/testing.sqlite
       - run: php artisan migrate --env=testing --database=sqlite_testing --force
+
+  test:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+    working_directory: ~/laravel
+    steps:
       - run:
           name: PHPUnit
           command: |
             mkdir -p ~/phpunit
-            ./vendor/bin/phpunit --log-junit ~/phpunit/junit.xml
+            ./vendor/bin/phpunit --log-junit ~/build/phpunit/junit.xml
           when: always
-
+      - store_test_results:
+          path: ~/build/phpunit
+      - store_artifacts:
+          path: ~/build/phpunit
+  coverage:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+    working_directory: ~/laravel
+    steps:
       - run:
           name: Generate coverage
-          command: ./vendor/bin/phpunit --coverage-clover ~/phpunit/coverage/xml
+          command: ./vendor/bin/phpunit --coverage-clover ~/build/phpunit/coverage/xml
       - run:
           name: Upload coverage to Codacy
-          command: ./vendor/bin/codacycoverage clover ~/phpunit/coverage/xml
-
+          command: ./vendor/bin/codacycoverage clover ~/build/phpunit/coverage/xml
       - store_test_results:
-          path: ~/phpunit
+          path: ~/build/phpunit
       - store_artifacts:
-          path: ~/phpunit
-      # - run: ./vendor/bin/codecept build
-      # - run: ./vendor/bin/codecept run
+          path: ~/build/phpunit
+  docs:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+    working_directory: ~/laravel
+    steps:
+       - run: curl -O http://get.sensiolabs.org/sami.phar -o ./sami.phar
+       - run:
+           name: Generate documentation
+           command: php sami.phar update sami.php
+       - store_test_results:
+            path: ~/build/docs
+       - store_artifacts:
+            path: ~/build/docs
+
+
+workflows:
+  version: 2
+  everything:
+    jobs:
+      - build
+      - test:
+           requires:
+               - build
+      - coverage:
+           requires:
+               - build
+      - docs:
+           requires:
+               - build
+  test_and_coverage:
+    jobs:
+      - build
+      - test:
+           requires:
+               - build
+      - coverage:
+           requires:
+               - build
