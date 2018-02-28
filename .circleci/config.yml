@@ -10,7 +10,7 @@ jobs:
     working_directory: ~/laravel
     steps:
       - checkout
-      - run: touch database/testing.sqlite
+      - run: find ./database/migrations -type f -exec sha256sum {} + | sort >> ./migrations.sha256sum
       - save_cache:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
@@ -58,9 +58,10 @@ jobs:
           key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           key: composer-v1-{{ checksum "composer.lock" }}
+      - run: touch database/testing.sqlite
       - run: php artisan migrate --env=testing --database=sqlite_testing --force
       - save_cache:
-          key: node-v1-{{ checksum "database/testing.sqlite" }}
+          key: node-v1-{{ checksum "migrations.sha256sum" }}
           paths:
             - database/testing.sqlite
 
@@ -79,7 +80,7 @@ jobs:
           keys:
               - node-v1-{{ checksum "package.json" }}
       - restore_cache:
-          key: node-v1-{{ checksum "database/testing.sqlite" }}
+          key: node-v1-{{ checksum "migrations.sha256sum" }}
       - run:
           name: PHPUnit
           command: |
@@ -105,7 +106,7 @@ jobs:
           keys:
               - node-v1-{{ checksum "package.json" }}
       - restore_cache:
-          key: node-v1-{{ checksum "database/testing.sqlite" }}
+          key: node-v1-{{ checksum "migrations.sha256sum" }}
 
       - run:
           name: Generate coverage
@@ -132,7 +133,7 @@ jobs:
           # keys:
               # - node-v1-{{ checksum "package.json" }}
       # - restore_cache:
-          # key: node-v1-{{ checksum "database/testing.sqlite" }}
+          # key: node-v1-{{ checksum "migrations.sha256sum" }}
 
       - run: curl -O http://get.sensiolabs.org/sami.phar -o ./sami.phar
       - run:
