@@ -4,49 +4,81 @@
 #
 version: 2
 jobs:
-  build:
+  checkout:
     docker:
-      # specify the version you desire here
       - image: circleci/php:7.1-node-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mysql:9.4
-
     working_directory: ~/laravel
-
     steps:
       - checkout
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/laravel
+  dependencies_php:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+    working_directory: ~/laravel
+    steps:
       - run: sudo apt install -y libsqlite3-dev zlib1g-dev
       - run: sudo docker-php-ext-install zip
       - run: sudo composer self-update
       - restore_cache:
           keys:
             - composer-v1-{{ checksum "composer.lock" }}
-            - composer-v1-
       - run: composer install -n --prefer-dist
       - save_cache:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - vendor
+
+  dependencies_js:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+    working_directory: ~/laravel
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
             - node-v1-{{ checksum "package.json" }}
-            - node-v1-
-      - run: yarn install
+      - run: npm install
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}
           paths:
             - node_modules
+  mockup_testing:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+    working_directory: ~/laravel
+    steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+
       - run: touch database/testing.sqlite
       - run: php artisan migrate --env=testing --database=sqlite_testing --force
+      - save_cache:
+          key: node-v1-{{ checksum "database/testing.sqlite" }}
+          paths:
+            - database
 
   test:
     docker:
       - image: circleci/php:7.1-node-browsers
     working_directory: ~/laravel
     steps:
+      - restore_cache:
+          keys:
+              - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      # - restore_cache:
+          # keys:
+              # - composer-v1-{{ checksum "composer.lock" }}
+      # - restore_cache:
+          # keys:
+              # - node-v1-{{ checksum "package.json" }}
+      - restore_cache:
+          key: node-v1-{{ checksum "database/testing.sqlite" }}
       - run:
           name: PHPUnit
           command: |
@@ -62,6 +94,18 @@ jobs:
       - image: circleci/php:7.1-node-browsers
     working_directory: ~/laravel
     steps:
+      - restore_cache:
+          keys:
+              - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      # - restore_cache:
+          # keys:
+              # - composer-v1-{{ checksum "composer.lock" }}
+      # - restore_cache:
+          # keys:
+              # - node-v1-{{ checksum "package.json" }}
+      - restore_cache:
+          key: node-v1-{{ checksum "database/testing.sqlite" }}
+
       - run:
           name: Generate coverage
           command: ./vendor/bin/phpunit --coverage-clover ~/build/phpunit/coverage/xml
@@ -77,13 +121,25 @@ jobs:
       - image: circleci/php:7.1-node-browsers
     working_directory: ~/laravel
     steps:
-       - run: curl -O http://get.sensiolabs.org/sami.phar -o ./sami.phar
-       - run:
+      - restore_cache:
+          keys:
+              - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      # - restore_cache:
+          # keys:
+              # - composer-v1-{{ checksum "composer.lock" }}
+      # - restore_cache:
+          # keys:
+              # - node-v1-{{ checksum "package.json" }}
+      # - restore_cache:
+          # key: node-v1-{{ checksum "database/testing.sqlite" }}
+
+      - run: curl -O http://get.sensiolabs.org/sami.phar -o ./sami.phar
+      - run:
            name: Generate documentation
            command: php sami.phar update sami.php
-       - store_test_results:
+      - store_test_results:
             path: ~/build/docs
-       - store_artifacts:
+      - store_artifacts:
             path: ~/build/docs
 
 
@@ -91,22 +147,26 @@ workflows:
   version: 2
   everything:
     jobs:
-      - build
+      - checkout
+      - dependencies_php:
+           requires:
+               - checkout
+      - dependencies_js:
+           requires:
+               - checkout
+      - dependencies:
+           requires:
+               - dependencies_php
+               - dependencies_js
+      - mockup_testing:
+           requies:
+               - dependencies
       - test:
            requires:
-               - build
+               - dependencies
       - coverage:
            requires:
-               - build
+               - dependencies_php
       - docs:
            requires:
-               - build
-  test_and_coverage:
-    jobs:
-      - build
-      - test:
-           requires:
-               - build
-      - coverage:
-           requires:
-               - build
+               - checkout
