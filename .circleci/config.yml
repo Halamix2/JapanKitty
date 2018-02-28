@@ -71,12 +71,12 @@ jobs:
       - restore_cache:
           keys:
               - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      # - restore_cache:
-          # keys:
-              # - composer-v1-{{ checksum "composer.lock" }}
-      # - restore_cache:
-          # keys:
-              # - node-v1-{{ checksum "package.json" }}
+      - restore_cache:
+          keys:
+              - composer-v1-{{ checksum "composer.lock" }}
+      - restore_cache:
+          keys:
+              - node-v1-{{ checksum "package.json" }}
       - restore_cache:
           key: node-v1-{{ checksum "database/testing.sqlite" }}
       - run:
@@ -97,12 +97,12 @@ jobs:
       - restore_cache:
           keys:
               - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
-      # - restore_cache:
-          # keys:
-              # - composer-v1-{{ checksum "composer.lock" }}
-      # - restore_cache:
-          # keys:
-              # - node-v1-{{ checksum "package.json" }}
+      - restore_cache:
+          keys:
+              - composer-v1-{{ checksum "composer.lock" }}
+      - restore_cache:
+          keys:
+              - node-v1-{{ checksum "package.json" }}
       - restore_cache:
           key: node-v1-{{ checksum "database/testing.sqlite" }}
 
@@ -154,16 +154,15 @@ workflows:
       - dependencies_js:
            requires:
                - checkout
-      - dependencies:
+
+      - mockup_testing:
+           requies:
+               - dependencies_php
+               - dependencies_js
+      - test:
            requires:
                - dependencies_php
                - dependencies_js
-      - mockup_testing:
-           requies:
-               - dependencies
-      - test:
-           requires:
-               - dependencies
       - coverage:
            requires:
                - dependencies_php
