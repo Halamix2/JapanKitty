@@ -19,6 +19,8 @@ jobs:
       - image: circleci/php:7.1-node-browsers
     working_directory: ~/laravel
     steps:
+      - restore_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run: sudo apt install -y libsqlite3-dev zlib1g-dev
       - run: sudo docker-php-ext-install zip
       - run: sudo composer self-update
@@ -36,8 +38,6 @@ jobs:
       - image: circleci/php:7.1-node-browsers
     working_directory: ~/laravel
     steps:
-      - restore_cache:
-          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           keys:
             - node-v1-{{ checksum "package.json" }}
