@@ -163,9 +163,11 @@ workflows:
            requires:
                - dependencies_php
                - dependencies_js
+               - mockup_testing
       - coverage:
            requires:
                - dependencies_php
+               - mockup_testing
       - docs:
            requires:
                - checkout
