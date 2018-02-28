@@ -158,7 +158,6 @@ workflows:
       - mockup_testing:
            requires:
                - dependencies_php
-               - dependencies_js
       - test:
            requires:
                - dependencies_php
