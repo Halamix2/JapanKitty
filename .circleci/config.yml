@@ -6,7 +6,7 @@ version: 2
 jobs:
   checkout:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.2-node-browsers
     working_directory: ~/laravel
     steps:
       - checkout
@@ -17,7 +17,7 @@ jobs:
             - ~/laravel
   dependencies_php:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.2-node-browsers
     working_directory: ~/laravel
     steps:
       - restore_cache:
@@ -36,7 +36,7 @@ jobs:
 
   dependencies_js:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.2-node-browsers
     working_directory: ~/laravel
     steps:
       - restore_cache:
@@ -51,7 +51,7 @@ jobs:
             - node_modules
   mockup_testing:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.2-node-browsers
     working_directory: ~/laravel
     steps:
       - restore_cache:
@@ -67,7 +67,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.2-node-browsers
     working_directory: ~/laravel
     steps:
       - restore_cache:
@@ -93,7 +93,7 @@ jobs:
           path: ~/build/phpunit
   coverage:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.2-node-browsers
     working_directory: ~/laravel
     steps:
       - restore_cache:
@@ -120,7 +120,7 @@ jobs:
           path: ~/build/phpunit
   docs:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.2-node-browsers
     working_directory: ~/laravel
     steps:
       - restore_cache:
@@ -144,31 +144,48 @@ jobs:
       - store_artifacts:
             path: ~/build/docs
 
+  all_artifacts:
+    docker:
+      - image: circleci/php:7.2-node-browsers
+    working_directory: ~/laravel
+    steps:
+      - restore_cache:
+          keys:
+              - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+      - store_test_results:
+            path: ~/build/docs
+      - store_artifacts:
+            path: ~/build/docs
 
 workflows:
-  version: 2
-  everything:
-    jobs:
-      - checkout
-      - dependencies_php:
-           requires:
-               - checkout
-      - dependencies_js:
-           requires:
-               - checkout
+    version: 2
+    everything:
+        jobs:
+            - checkout
+            - dependencies_php:
+                requires:
+                    - checkout
+            - dependencies_js:
+                requires:
+                    - checkout
 
-      - mockup_testing:
-           requires:
-               - dependencies_php
-      - test:
-           requires:
-               - dependencies_php
-               - dependencies_js
-               - mockup_testing
-      - coverage:
-           requires:
-               - dependencies_php
-               - mockup_testing
-      - docs:
-           requires:
-               - checkout
+            - mockup_testing:
+                requires:
+                    - dependencies_php
+            - test:
+                requires:
+                    - dependencies_php
+                    - dependencies_js
+                    - mockup_testing
+            - coverage:
+                requires:
+                    - dependencies_php
+                    - mockup_testing
+            - docs:
+                requires:
+                    - checkout
+            - all_artifacts:
+                requires:
+                    - test
+                    - coverage
+                    - docs
