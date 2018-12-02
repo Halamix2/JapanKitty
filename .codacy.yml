@@ -3,5 +3,5 @@ exclude_paths:
     - vendor/**
     - node_modules/**
     - homestead/**
-    - resources/assets/**
-    - database/migrations/**
+    - resources/assets/bootstrap.js
+    - cache/**

@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+//TODO proper 404 site
+Route::get('/{any}', function($any) {
+    return view('404');
+ })->where('any', '.*');
+ 

@@ -20,6 +20,11 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            //TODO zmien na gender
+            $table->string('sex')->nullable()->default('unknown'); //TODO should this be nullable?
+            $table->date('birthday')->nullable(); //TODO dobre?
+            $table->string('surname')->nullable();
         });
     }
 

@@ -14,4 +14,4 @@ yarn-error.log
 .env
 sami.phar
 /cache
-/database/*.sqlite
+/storage/*.sqlite
