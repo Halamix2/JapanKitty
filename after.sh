@@ -15,11 +15,11 @@ sudo -u vagrant -H bash -c "rm -f .env;\
   touch database/testing.sqlite;\
   cp .env.testing .env;\
   composer install -n;\
-  echo 'generating keys';\
+  echo \"generating keys\";\
   if [ ! -f ~/.key_generated ]; then php artisan key:generate; touch ~/.key_generated; fi;\
-  echo 'migrations';\ 
+  echo \"migrations\";\ 
   php artisan migrate;\
-  echo 'seed'; \
+  echo \"seed\"; \
   php artisan db:seed;\
   php artisan passport:client --personal --no-interaction;"
   #  echo 'this particular migration'; \ 

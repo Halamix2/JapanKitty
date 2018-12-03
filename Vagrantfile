@@ -1,10 +1,19 @@
 require 'json'
 require 'yaml'
+require_relative 'OS'
 
 VAGRANTFILE_API_VERSION ||= "2"
 confDir = $confDir ||= File.expand_path("./homestead", File.dirname(__FILE__))
 
-homesteadYamlPath = "Homestead.yaml"
+#Homestead.yaml is not really used but it may be used in the future, probably will be the same as homestead_linux.yaml
+if OS.windows?
+    homesteadYamlPath = "Homestead_windows.yaml"
+elsif OS.linux?
+    homesteadYamlPath = "Homestead_linux.yaml"
+else
+    homesteadYamlPath = "Homestead.yaml"
+end
+
 homesteadJsonPath = "Homestead.json"
 afterScriptPath = "after.sh"
 aliasesPath = "aliases"
