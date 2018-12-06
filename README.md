@@ -10,16 +10,6 @@ Server-side of Japankitty service, writthen mostly in PHP using Laravel framewor
 ```bash
 #optional, download if you want to use Homestead
 git submodule update --init --recursive
-
-#optional, download if you wish to generate documentation
-curl -O http://get.sensiolabs.org/sami.phar
-
-# install required dependencies
-composer update
-#artisan database something here, check exactly what to enter
-
-# optional dependencies for frontend, not used for now
-npm install
 ```
 
 # Homestead
@@ -27,8 +17,29 @@ npm install
 # download Homestead as described above
 # run Homestead box
 vagrant up
+#ssh to box
+vagrant ssh
 # stop box (maybe not elegant way)
 vagrant halt
+```
+
+#Varoius commands
+```bash
+#optional, download if you wish to generate documentation
+curl -O http://get.sensiolabs.org/sami.phar
+
+
+# install required dependencies (also installed on vagrant up)
+composer update
+#regenerate php includes (may come in handy)
+composer dump-autoloader
+#artisan database something here, check exactly what to enter
+
+# optional dependencies for frontend, not used for now
+npm install
+
+#compile frontend and get it ready to use
+npm run dev
 ```
 
 # Testing and coverage
