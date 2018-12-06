@@ -15,7 +15,7 @@ folders:
       type: "nfs"
 
 sites:
-    - map: homestead.app
+    - map: homestead.jk
       to: "/home/vagrant/code/public"
 databases:
     - homestead
