@@ -1,0 +1,37 @@
+/* Mian stylesheet file */
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=latin-ext');
+@import "/font-awesome/scss/font-awesome.scss";
+
+@import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+ 
+@import "variables";
+
+@import "./base";
+@import "./logo";
+@import "footer";
+@import "forms";
+@import "cube";
+
+@import "/homePage/homePageMenu";
+@import "/homePage/homepageheader";
+@import "/homePage/homePageBanner";
+@import "/homePage/homePageAboutCourse";
+@import "/homePage/homePageOffer";
+@import "/homePage/homepagecreators";
+@import "/homePage/creatorsSinglePerson";
+@import "/homePage/creatorsSocialMedia";
+@import "/homePage/homePageContact";
+@import "/homePage/login";
+@import "/homePage/register";
+
+@import "/coursePage/coursePageHeader";
+@import "/coursePage/coursePageSlider";
+@import "/coursePage/coursePageMiddle";
+@import "/coursePage/coursePageSidebarLeft";
+@import "/coursePage/flashcardsCategory";
+@import "/coursePage/flashcards";
+@import "/coursePage/quizView";
+@import "/coursePage/settings";
+
+@import "/adminPage/adminPanelOptions";
+@import "/adminPage/adminPanelTexts";

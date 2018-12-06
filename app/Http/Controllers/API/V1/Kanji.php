@@ -19,7 +19,7 @@ class Kanji extends BaseController
    */
     public function getDataByCourse($courseId)
    {
-      $kanjiTableConents = DB::table('kanji')->join('courses', 'kanji.course', '=', 'courses.id')->where('courses.id', $courseId)->select('kanji.id', 'kanji.kanji', 'kanji.kunyomi', 'kanji.onyomi')->get();
+      $kanjiTableConents = DB::table('kanji')->join('courses', 'kanji.course', '=', 'courses.id')->where('courses.id', $courseId)->select('kanji.idPodstawowy', 'kanji.kanji', 'kanji.kunyomi', 'kanji.onyomi')->get();
 
       return response()->json($kanjiTableConents);
    }

@@ -1,0 +1,23 @@
+.site-logo{
+    display: block;
+    width: 30%;
+    padding: 15px 0 15px 20px;
+    a{
+        color: #333;
+        text-decoration: none;
+    }
+    .site-title{
+        font-weight: 500;
+        margin: 0 0 8px;
+        letter-spacing: -0.5px;
+        font-size: 32px;
+        line-height: 1;
+    }
+    .site-description{
+        margin: 0;
+        font-size: 15px;
+        font-style: italic;
+        line-height: 1;
+    
+    }
+}

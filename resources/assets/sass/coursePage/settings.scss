@@ -1,0 +1,68 @@
+.settingsSection{
+    background-color: #676056;
+}
+
+
+
+.settings {
+    position: relative;
+    margin: auto;
+    background: white;
+    border-radius: 3px;
+    form {
+        padding: 10px;
+    }
+    &:before{
+        content: '';
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        bottom: -8px;
+        left: -8px;
+        z-index: -1;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+    }
+    h1 {
+        line-height: 55px;
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #fff;
+        text-align: center;
+        background: $headerbg;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+    .message{
+        padding: 15px;
+    }
+    .submit {
+        text-align: center;
+    }
+    p{
+        &:first-child{ 
+            margin-top: 30px;
+        }
+    .remember {
+        float: left;
+        label{
+            color: #a7a599;
+            font-size: 12px;
+            cursor: pointer;
+            }
+        }
+        .forgot{float: right;margin-right: 50px;
+            a{
+                color: #a7a599;
+                font-size: 12px;
+                text-decoration: none;
+                font-style: italic;
+                transition: all 0.3s ease-out;
+                &:hover{
+                    color: #f2672e;
+                }
+            }
+        }
+    }
+}

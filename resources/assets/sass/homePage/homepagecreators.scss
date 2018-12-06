@@ -1,0 +1,24 @@
+.creators{
+    padding: 60px 30px;
+    background: #FFF;
+    .section-title {
+        margin-bottom: 60px;
+        text-align: center;
+        h2{
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            width: 60%;
+            margin: 0 auto 15px;
+        }
+        .title-description{
+            font-size: 20px;
+            width: 70%;
+            margin: 0 auto;
+        }
+    }
+    .person-container{
+        display: flex;
+        justify-content: center;
+    }
+}

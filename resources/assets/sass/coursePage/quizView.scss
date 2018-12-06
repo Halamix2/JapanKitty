@@ -1,0 +1,53 @@
+.quiz-background{
+    background-color: #f5f5f5;
+    .quiz-container{
+        display: block;
+        margin: auto;
+        padding-top: 50px;
+        padding-bottom: 175px;
+        text-align: center;
+        .game-holder{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        .quiz{
+            background-color: #fff;
+            height: 200px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .button-container{
+            width: 100%;
+            button{
+                width: 100%;
+                background: $brand-primary-dark;
+                border: none;
+                padding: 15px;
+                margin-top: 15px;
+                text-transform: uppercase;
+                color: white;
+                display: block;
+                &.success{
+                    background: #00bf22;
+                }
+                &.wrong{
+                    background: #ff0021;
+                }
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .next{
+        margin-top: 15px; 
+        padding: 15px 35px;
+        text-transform: uppercase;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}
+}

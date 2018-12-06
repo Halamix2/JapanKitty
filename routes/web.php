@@ -12,7 +12,24 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('main');
+});
+
+//Auth::routes();
+
+Route::get('/', 'Page@HomePage');
+Route::get('/home', 'Page@HomePage');
+Route::get('/course', 'Page@CoursePage');
+//naïve implementation below
+
+Route::get('/game/{gameId}/category', function () {
+    return view('gamecategories');
+});
+Route::get('/game/{gameId}/category/{categoryId}', function () {
+    return view('game');
+});
+Route::get('/flashcards', function () {
+    return view('flashcards');
 });
 
 
@@ -20,4 +37,3 @@ Route::get('/', function () {
 Route::get('/{any}', function($any) {
     return view('404');
  })->where('any', '.*');
- 
