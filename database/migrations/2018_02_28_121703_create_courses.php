@@ -31,8 +31,8 @@ class CreateCourses extends Migration
         DB::table('courses')->insert([ 'id' => 8, 'file' => "vocabulary_intermediate1", 'name' =>'Sredniozaawansowane', 'name_jp' =>'中級', 'type' =>'vocabulary' ]);
         DB::table('courses')->insert([ 'id' => 9, 'file' => "vocabulary_intermediate2", 'name' =>'Sredniozaawansowane 2', 'name_jp' =>'中級 2', 'type' =>'vocabulary' ]);
         DB::table('courses')->insert([ 'id' => 10, 'file' => "vocabulary_intermediate3", 'name' =>'Sredniozaawansowane 3', 'name_jp' =>'中級 3', 'type' =>'vocabulary' ]);
-        DB::table('courses')->insert([ 'id' => 11, 'file' => "kanji_basic1", 'name' =>'', 'name_jp' =>'', 'type' =>'kanji' ]);
-        DB::table('courses')->insert([ 'id' => 12, 'file' => 'kanji_basic2', 'name' =>'', 'name_jp' =>'', 'type' =>'kanji' ]);
+        DB::table('courses')->insert([ 'id' => 11, 'file' => "kanji_basic1", 'name' =>'Podstawy kanji 1', 'name_jp' =>'', 'type' =>'kanji' ]);
+        DB::table('courses')->insert([ 'id' => 12, 'file' => 'kanji_basic2', 'name' =>'Podstawy kanji 2', 'name_jp' =>'', 'type' =>'kanji' ]);
     }
 
     /**
