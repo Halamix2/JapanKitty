@@ -5,7 +5,9 @@
         <li><a class="nav-button" href='/home#offer' v-smooth-scroll>OFERTA</a></li>
         <li><a class="nav-button" href='/home#creators' v-smooth-scroll>TWÓRCY</a></li>
         <li><a class="nav-button" href="/home#contact" v-smooth-scroll>KONTAKT</a></li>
-          <li><router-link to="/course" exact>KURS</router-link></li>
+        <li v-if="!isSignedIn"><router-link to="/login" exact>ZALOGUJ</router-link></li>
+        <li v-if="!isSignedIn"><router-link to="/register" exact>ZAREJESTRUJ</router-link></li>
+        <li><router-link to="/course" exact>KURS</router-link></li>
     </b-navbar-nav>
 </template>
 
