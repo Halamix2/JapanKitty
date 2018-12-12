@@ -30,7 +30,7 @@ Vue.use(vueSmoothScroll);
 Vue.use(VeeValidate);
 //Vue.use(VueSession);
 
-Vue.http.options.root = 'http://homestead.jk/api/v1/';
+Vue.http.options.root = process.env.MIX_APP_URL+'/api/v1/';
 Vue.http.options.emulateJSON = true;
 const router = new VueRouter({
   routes: Routes,
