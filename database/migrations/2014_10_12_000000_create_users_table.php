@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('sex')->nullable()->default('unknown'); //TODO should this be nullable?
             $table->date('birthday')->nullable(); //TODO dobre?
             $table->string('surname')->nullable();
+            $table->string('role')->default('user');
         });
     }
 

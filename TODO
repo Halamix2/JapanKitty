@@ -1,0 +1,27 @@
+192.168.10.10
+
+after.sh
+    mockup data
+
+database
+    migrations
+    mockup data
+
+
+app
+    user handler
+        fix it if needed just eniugh to work
+
+
+składowe kanji: po 1 znaku: 1 pole plus explode co znak
+
+ok      kanji: kilka kunyomi i onyomi: jest, po precinku, na razie styknie
+ok?     kunyomi, onyomi ; i , zamiennie : ustandaryzuj na ,: tak naprawdę wszędzie jest 、, wystarczy ekspolodować
+
+logowanie: tokeny Asia, spytać o repo 
+
+OK      Asia wyślij pdfy (Pobrane/VR)
+
+
+matomo
+wrking matomo :P
