@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(VocabularyTableSeeder::class);
         $this->call(KanjiTableSeeder::class);*/
         $this->call(UsersTableSeeder::class);
+        $this->call(ProgressTableSeeder::class);
+
     }
 }
