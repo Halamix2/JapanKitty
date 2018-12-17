@@ -36,9 +36,32 @@ class ProgressController extends Controller
      *
      * @param Request $request requires JSON with fields game, category and score; as well as Authorization token in headers
      *
-     * @return void returns 200 or 202(currently returns only 200)
+     * @return void returns 200 or 202 HTTP code (currently returns only 200)
      */
     public function setProgress(Request $request) {
-        return response()->json(['error'=>'unimplemented'], 501);
+        $user = Auth::user();
+        //check if entry already exists, update it 
+        $checkIfExists = DB::table('progress')->where([
+            [ 'user', $user["id"] ],
+            [ 'game', $request["game"] ],
+            [ 'category', $request["category"] ],
+        ])->get();
+        
+        if($checkIfExists->count()) {
+            DB::table('progress')->where([
+                [ 'user', $user["id"] ],
+                [ 'game', $request["game"] ],
+                [ 'category', $request["category"] ],
+            ])->update(["score" => $request["score"]]);
+        }
+        else {
+            DB::table('progress')->insert([
+                "user" => $user["id"],
+                "game" => $request["game"],
+                "category" => $request["category"],
+                "score" => $request["score"],
+            ]);
+        }
+        return response()->json(['success'=>'success'], 200);
     }
 }
