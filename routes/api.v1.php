@@ -29,8 +29,8 @@
         Route::post('logout', 'PassportController@logout');
         Route::post('edit-account', 'PassportController@editAccount');
 
-        Route::get('get-progress', 'ProgressController@getProgress');
-        Route::post('set-progress', 'ProgressController@setProgress');
+        Route::get('progress', 'ProgressController@getProgress');
+        Route::post('progress', 'ProgressController@setProgress');
     });
 
 
@@ -66,4 +66,3 @@
         Route::post('edit-text', 'API\TextsController@editText');
         Route::post('delete-text', 'API\TextsController@deleteText');
     });*/
-    
