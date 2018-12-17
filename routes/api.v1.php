@@ -28,6 +28,9 @@
         Route::post('get-details', 'PassportController@getDetails');
         Route::post('logout', 'PassportController@logout');
         Route::post('edit-account', 'PassportController@editAccount');
+
+        Route::get('get-progress', 'ProgressController@getProgress');
+        Route::post('set-progress', 'ProgressController@setProgress');
     });
 
 

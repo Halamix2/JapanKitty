@@ -1,12 +1,8 @@
 192.168.10.10
 
-after.sh
-    mockup data
-
 database
     migrations
     mockup data
-
 
 app
     user handler
