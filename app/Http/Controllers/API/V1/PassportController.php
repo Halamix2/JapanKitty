@@ -113,11 +113,20 @@ class PassportController extends Controller
     {
         $user = Auth::user();
         if($request["mobile"]) {
-              return response()->json(['success' => "success", "id" => $user["id"], "name" => $user["name"], "email" => $user["email"]], 200);
+            return response()->json([
+                'success' => "success",
+                "id" => $user["id"],
+                "name" => $user["name"],
+                "email" => $user["email"],
+                "sex" => $user["sex"],
+                "surname" => $user["surname"],
+                "birthday" => $user["birthday"],
+                "role" => $user["role"],
+                "status" => $user["status"],
+                ], 200);
         } else {
             return response()->json(['success' => $user], 200);
         }
-
     }
 
     /**
