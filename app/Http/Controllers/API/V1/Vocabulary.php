@@ -19,7 +19,7 @@ class Vocabulary extends BaseController
      */
     public function getDataByCourse($courseId)
    {
-      $vocabularyTableConents = DB::table('vocabulary')->join('courses', 'vocabulary.course_id', '=', 'courses.id')->where('vocabulary.course_id', $courseId)->select('vocabulary.id','vocabulary.kana','vocabulary.kanji','vocabulary.polish')->get();
+      $vocabularyTableConents = DB::table('vocabulary')->join('courses', 'vocabulary.course', '=', 'courses.id')->where('vocabulary.course', $courseId)->select('vocabulary.id','vocabulary.kana','vocabulary.kanji','vocabulary.polish')->get();
 
       return response()->json($vocabularyTableConents);
    }

@@ -31,10 +31,11 @@ class PassportController extends Controller
         if(Auth::attempt(['email' => request('email'), 'password' => $request['password']])) {
             $user = Auth::user();
             $success['token'] =  $user->createToken('api')->accessToken;
+            $success['role'] = $user['role'];
             if(!$request["mobile"]) {
                 return response()->json(['success' => $success], 200);
             } else {
-                return response()->json(['success' => "success", 'token' => $success["token"]], 200);
+                return response()->json(['success' => "success", 'token' => $success["token"], 'role' => $success['role'] ], 200);
             }
         }
         else {
@@ -54,7 +55,8 @@ class PassportController extends Controller
     public function logout(Request $request)
     {
       if (Auth::check()) {
-          Auth::user()->OauthAccessToken()->delete();
+          //Auth::user()->OauthAccessToken()->delete();
+          Auth::logout();
           return response()->json(['success' => "success"], 200);
       }
       else
@@ -96,9 +98,15 @@ class PassportController extends Controller
         $user = User::create($input);
         $success['token'] =  $user->createToken('api')->accessToken;
         $success['name'] =  $user->name;
+        $success['role'] =  $user->role;
 
         if($request["mobile"]) {
-            return response()->json(['success' => "success", 'token' => $success["token"], 'name' => $success['name']], 200);
+            return response()->json([
+                'success' => "success",
+                'token' => $success["token"],
+                'name' => $success['name'],
+                'role' => $user['role']
+            ], 200);
         } else {
           return response()->json(['success' => $success], 200);
         }
@@ -114,10 +122,12 @@ class PassportController extends Controller
         $user = Auth::user();
         if($request["mobile"]) {
             return response()->json([
-                'success' => "success",
+                //'success' => "success",
                 "id" => $user["id"],
                 "name" => $user["name"],
                 "email" => $user["email"],
+                "created_at" => $user->created_at->format('Y-m-d H:i:s'),
+                "updated_at" => $user->updated_at->format('Y-m-d H:i:s'),
                 "sex" => $user["sex"],
                 "surname" => $user["surname"],
                 "birthday" => $user["birthday"],
