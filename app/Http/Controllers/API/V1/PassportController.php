@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Laravel\Passport\Passport;
 
 /**
 * Class responsible for managing user logging and registration
@@ -28,6 +29,12 @@ class PassportController extends Controller
      */
     public function login(Request $request)
     {
+        if(isset($request['remember']) && $request['remember'] == "true") {
+            Passport::tokensExpireIn(now()->addYear());
+        }
+        else {
+            Passport::tokensExpireIn(now()->addDays(150000));
+        }
         if(Auth::attempt(['email' => request('email'), 'password' => $request['password']])) {
             $user = Auth::user();
             $success['token'] =  $user->createToken('api')->accessToken;
@@ -92,23 +99,28 @@ class PassportController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 401);
         }
+        else {
+            if(isset($request['remember']) && $request['remember'] == "true") {
+                Passport::tokensExpireIn(now()->addYear());
+            }
 
-        $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-        $success['token'] =  $user->createToken('api')->accessToken;
-        $success['name'] =  $user->name;
-        $success['role'] =  $user->role;
+            $input = $request->all();
+            $input['password'] = bcrypt($input['password']);
+            $user = User::create($input);
+            $success['token'] =  $user->createToken('api')->accessToken;
+            $success['name'] =  $user->name;
+            $success['role'] =  $user->role;
 
-        if($request["mobile"]) {
-            return response()->json([
-                'success' => "success",
-                'token' => $success["token"],
-                'name' => $success['name'],
-                'role' => $user['role']
-            ], 200);
-        } else {
-          return response()->json(['success' => $success], 200);
+            if($request["mobile"]) {
+                return response()->json([
+                    'success' => "success",
+                    'token' => $success["token"],
+                    'name' => $success['name'],
+                    'role' => $user['role']
+                ], 200);
+            } else {
+            return response()->json(['success' => $success], 200);
+            }
         }
     }
 
