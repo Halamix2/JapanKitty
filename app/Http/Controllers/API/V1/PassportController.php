@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\DB;
 
 /**
 * Class responsible for managing user logging and registration
@@ -29,15 +30,16 @@ class PassportController extends Controller
      */
     public function login(Request $request)
     {
-        if(isset($request['remember']) && $request['remember'] == "true") {
-            Passport::tokensExpireIn(now()->addYear());
-        }
-        else {
-            Passport::tokensExpireIn(now()->addDays(150000));
-        }
         if(Auth::attempt(['email' => request('email'), 'password' => $request['password']])) {
             $user = Auth::user();
             $success['token'] =  $user->createToken('api')->accessToken;
+
+            if(!isset($request['remember']) || $request['remember'] != "true") {
+                //shorter lifetime
+                DB::table('oauth_access_tokens')->where('id',$user->tokens[0]->id)->update(['expires_at' => now()->addDays(15) ]);
+                //return response()->json(['succ' => $user->tokens[0]->id], 200);
+            }
+
             $success['role'] = $user['role'];
             if(!$request["mobile"]) {
                 return response()->json(['success' => $success], 200);
@@ -63,7 +65,7 @@ class PassportController extends Controller
     {
       if (Auth::check()) {
           //Auth::user()->OauthAccessToken()->delete();
-          Auth::logout();
+          Auth::user()->token()->revoke();
           return response()->json(['success' => "success"], 200);
       }
       else
@@ -147,6 +149,10 @@ class PassportController extends Controller
                 "status" => $user["status"],
                 ], 200);
         } else {
+            if(isset($user['tokens'])) {
+                //remove that
+                unset($user['tokens']);
+            }
             return response()->json(['success' => $user], 200);
         }
     }

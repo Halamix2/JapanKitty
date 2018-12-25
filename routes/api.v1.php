@@ -14,7 +14,7 @@
     Route::post('login', 'PassportController@login');
     Route::post('register', 'PassportController@register');
 
-    Route::group(['middleware' => 'auth:api'], function(){
+    Route::group(['middleware' => ['auth:api', 'CheckTokenLifetime']], function(){
         Route::post('get-details', 'PassportController@getDetails');
         Route::get('get-details', 'PassportController@getDetails');
         Route::post('logout', 'PassportController@logout');

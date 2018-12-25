@@ -21,6 +21,7 @@ class CreateKanji extends Migration
             $table->string('kunyomi');
             $table->string('onyomi');
             $table->string('radicals')->nullable();
+            $table->string('definition')->nullable();
         });
 
         DB::table('kanji')->insert([ "id" => 1, "course" => 11, "kanji" => "猫", "kunyomi" => "ねこ", "onyomi" => "ビョウ", "radicals" => NULL ]);
