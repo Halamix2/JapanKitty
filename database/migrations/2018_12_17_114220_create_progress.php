@@ -19,6 +19,7 @@ class CreateProgress extends Migration
             $table->integer('game');
             $table->integer('category');
             $table->integer('score');
+            $table->integer('max_points');
         });
     }
 

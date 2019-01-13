@@ -28,7 +28,7 @@ class ProgressController extends Controller
     public function getProgress(Request $request) {
         $user = Auth::user();
         $progressData = DB::table('progress')->where('user', $user["id"])->get();
-        return response()->json($progressData, 501);
+        return response()->json($progressData, 200, [], JSON_NUMERIC_CHECK);
     }
 
     /**
@@ -42,24 +42,25 @@ class ProgressController extends Controller
         $user = Auth::user();
         //check if entry already exists, update it 
         $checkIfExists = DB::table('progress')->where([
-            [ 'user', $user["id"] ],
-            [ 'game', $request["game"] ],
-            [ 'category', $request["category"] ],
+            [ 'user', (int)$user["id"] ],
+            [ 'game', (int)$request["game"] ],
+            [ 'category', (int)$request["category"] ],
         ])->get();
         
         if($checkIfExists->count()) {
             DB::table('progress')->where([
                 [ 'user', $user["id"] ],
-                [ 'game', $request["game"] ],
-                [ 'category', $request["category"] ],
-            ])->update(["score" => $request["score"]]);
+                [ 'game', (int)$request["game"] ],
+                [ 'category', (int)$request["category"] ],
+            ])->update(["score" => (int)$request["score"], "max_points" => (int)$request["max_points"]]);
         }
         else {
             DB::table('progress')->insert([
                 "user" => $user["id"],
-                "game" => $request["game"],
-                "category" => $request["category"],
-                "score" => $request["score"],
+                "game" => (int)$request["game"],
+                "category" => (int)$request["category"],
+                "score" => (int)$request["score"],
+                "max_points" => (int)$request["max_points"],
             ]);
         }
         return response()->json(['success'=>'success'], 200);

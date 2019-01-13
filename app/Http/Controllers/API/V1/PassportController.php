@@ -113,6 +113,12 @@ class PassportController extends Controller
             $success['name'] =  $user->name;
             $success['role'] =  $user->role;
 
+            if(!isset($request['remember']) || $request['remember'] != "true") {
+                //shorter lifetime
+                DB::table('oauth_access_tokens')->where('id',$user->tokens[0]->id)->update(['expires_at' => now()->addDays(15) ]);
+                //return response()->json(['succ' => $user->tokens[0]->id], 200);
+            }
+
             if($request["mobile"]) {
                 return response()->json([
                     'success' => "success",
@@ -186,6 +192,21 @@ class PassportController extends Controller
         if(isset($input["new_password"]))
         {
           $obj_user->password = bcrypt($input['new_password']);
+          $obj_user->save();
+        }
+        if(isset($input["new_sex"]))
+        {
+          $obj_user->sex = $input['new_sex'];
+          $obj_user->save();
+        }
+        if(isset($input["new_surname"]))
+        {
+          $obj_user->surname = $input['new_surname'];
+          $obj_user->save();
+        }
+        if(isset($input["new_birthday"]))
+        {
+          $obj_user->birthday = $input['new_birthday'];
           $obj_user->save();
         }
         return response()->json(['success'=>"success"], 200);
