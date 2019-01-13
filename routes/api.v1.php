@@ -10,6 +10,12 @@
     Route::get('kanji/{id}', 'Kanji@getDataByCourse');
     // Route::get('definitions/{id}', 'Definitions@getDataByCourse');
 
+    //Asia compability
+    Route::post('courses', 'Courses@getAllCourses');
+    Route::post('vocabulary/{id}', 'Vocabulary@getDataByCourse');
+    Route::post('kanji/{id}', 'Kanji@getDataByCourse');
+    Route::post('definitions/{id}', 'Definitions@petDataByCourse');
+
     // Route::get('motd', 'API\Config@getMOTD');
     Route::post('login', 'PassportController@login');
     Route::post('register', 'PassportController@register');
@@ -29,6 +35,6 @@
         // Route::post('change-user-status', 'API\AdminController@changeUserStatus');
     
         // Route::post('add-text', 'API\TextsController@addText');
-        // Route::post('edit-text', 'API\TextsController@editText');
+        Route::post('edit-text', 'TextsController@editText');
         // Route::post('delete-text', 'API\TextsController@deleteText');
     });
