@@ -1,3 +1,6 @@
 [submodule "homestead"]
 	path = homestead
 	url = https://github.com/laravel/homestead
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/muszka175/inzynierka.git
